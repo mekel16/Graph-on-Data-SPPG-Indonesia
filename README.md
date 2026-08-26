@@ -11,6 +11,19 @@ _tools_:
 
 ## Inti dari projek ini adalah bahwa bagaimana bisa mendapatkan konteks _natural language_ dari data tabular bukan dengan _vector search_. Tapi dengan pendekatan graf
 
-<img width="871" height="166" alt="image" src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" />
-<img width="224" height="225" alt="images" src="https://github.com/user-attachments/assets/69b04440-7bae-42c2-ae3b-ce294747c5e2" />
-<img width="1664" height="626" alt="visualisation (2)" src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" />
+<div align="center">
+  <div style="max-width: 100%; max-height: 500px; overflow: auto; border: 1px solid #30363d; border-radius: 8px; padding: 20px; background-color: #0d1117;">
+    
+    <!-- Gambar 1 (Atas) -->
+    <img src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" alt="Architecture Header" style="max-width: 100%; height: auto; display: block; margin: 0 auto 15px auto;" />
+
+    <!-- Panah Alur (Tengah) -->
+    <div style="font-size: 32px; color: #58a6ff; margin: 15px 0;">
+      ⬇️
+    </div>
+
+    <!-- Gambar 2 (Bawah) -->
+    <img src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" alt="Graph Visualization" style="max-width: 100%; height: auto; display: block; margin: 15px auto 0 auto;" />
+
+  </div>
+</div>
