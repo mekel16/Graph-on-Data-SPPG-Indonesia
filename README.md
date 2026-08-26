@@ -19,7 +19,8 @@
 
 ### 01 · Tabular Data
 
-<img src="https://github.com/user-attachments/assets/fc07d989-c8ef-4cc3-9700-405de7802dca" alt="Tabular Data and Architecture" style="max-width: 450px; width: 100%; height: auto;" />
+
+<img src="https://github.com/user-attachments/assets/aed59e61-780f-418c-99c0-d3a844bee5be" alt="Tabular Data and Architecture" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
 Dibentuk menjadi graf terlebih dahulu dengan relasi seperti pada gambar
