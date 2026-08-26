@@ -1,4 +1,3 @@
-<img width="1664" height="626" alt="visualisation (2)" src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" />
 # Penerapan GraphRAG pada Data SPPG Se-Indonesia
 
 _tools_:
@@ -18,3 +17,4 @@ _tools_:
   <img src="https://github.com/user-attachments/assets/3f586d9a-512a-40a7-8b5c-fb1dfc0e0e39" width="300" />
 </p>
 
+<img width="1664" height="626" alt="visualisation (2)" src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" />
