@@ -11,6 +11,8 @@ _tools_:
 
 ## Inti dari projek ini adalah bahwa bagaimana bisa mendapatkan konteks _natural language_ dari data tabular bukan dengan _vector search_. Tapi dengan pendekatan graf
 
+<sub>01 · Tabular Data</sub>
+
 <div align="center">
 
 <div style="overflow-x: auto; padding: 10px 0;">
