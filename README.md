@@ -66,7 +66,7 @@ Lalu menghasilkan data graph yang tersimpan di database neo4j
 <img src="https://github.com/user-attachments/assets/d71f7b77-4de2-45b3-9be1-9a587b0115fb" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-dengan menerapkan model Ollama dan _text to cypher_ maka akan dihasilkan respons dalam bentuk natural language seperti pada gambar di bawah
+dengan menerapkan model Ollama dan _text to cypher_ maka akan dihasilkan respons dalam bentuk natural language seperti pada gambar di atas
 </p>
 
 </td>
