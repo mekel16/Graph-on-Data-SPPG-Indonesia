@@ -65,7 +65,7 @@ Lalu menghasilkan data graph yang tersimpan di database neo4j
 
 ### 03 · Natural Language Generation
 
-<img src="https://github.com/user-attachments/assets/6bf09ca9-6437-4f6f-86a7-bd22eff0bdb7" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
+<img src="https://github.com/user-attachments/assets/d71f7b77-4de2-45b3-9be1-9a587b0115fb" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
 dengan menerapkan model ollama dan _text to chyper_ maka akan diberikan hasil dalam natural language seperti pada gambar di bawah
