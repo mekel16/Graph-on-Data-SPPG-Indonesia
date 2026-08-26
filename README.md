@@ -161,26 +161,25 @@ User (Bahasa Indonesia)
 
 ## Schema Graph
 
-Node dan relasi yang dibangun dari data CSV:
+Node dan relasi yang dibangun dari data CSV yang terbentuk adalah _unirected graph_ artinya ada relasi bolak balik tiap node (simpul):
 
 ```
 (:Provinsi)
     │
     ├──[:MEMILIKI_KABUPATEN]──► (:KabupatenKota)
-    │                               │
-    │                               ├──[:MEMILIKI_KECAMATAN]──► (:Kecamatan)
-    │                               │                               │
-    │                               │                               ├──[:MEMILIKI_DESA]──► (:Desa)
-    │                               │                               │                       │
-    │                               │                               │                       ├──[:MEMILIKI_SPPG]──► (:SPPG)
-    │                               │                               │                       │
-    │                               │                               │                       ├──[:MEMILIKI_ALAMAT]──► (:Alamat)
-    │                               │                               │
-    │                               │                               └──(bidirectional relasi ke atas)
-    │                               │
-    │                               └──(bidirectional relasi ke atas)
+    │       ◄──[:BAGIAN_DARI_PROVINSI]──┘
     │
-    └──(bidirectional relasi ke atas)
+    │       ├──[:MEMILIKI_KECAMATAN]──► (:Kecamatan)
+    │       │       ◄──[:BAGIAN_DARI_KABUPATEN]──┘
+    │       │
+    │       │       ├──[:MEMILIKI_DESA]──► (:Desa)
+    │       │       │       ◄──[:BAGIAN_DARI_KECAMATAN]──┘
+    │       │       │
+    │       │       │       ├──[:MEMILIKI_SPPG]──► (:SPPG)
+    │       │       │       │       ◄──[:BERADA_DI_DESA]──┘
+    │       │       │       │
+    │       │       │       ├──[:MEMILIKI_ALAMAT]──► (:Alamat)
+    │       │       │       │       ◄──[:ALAMAT_DARI_SPPG]──┘
 ```
 
 Semua relasi bersifat **bidirectional** supaya traversal bisa dilakukan dari arah manapun.
