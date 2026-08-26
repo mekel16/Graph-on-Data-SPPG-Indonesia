@@ -604,17 +604,9 @@ Dengan optimasi ini, import 27k data selesai dalam hitungan menit, bukan jam.
 
 ## Saya Tertarik dengan GraphRAG sehingga Mencoba Memahami Ini Terlebih Dahulu
 
-Beberapa hal yang menurut penulis layak untuk ditampilkan:
-
-1. **Graph over Vector** — menunjukkan pemahaman kapan menggunakan graf vs vector search, bukan sembarang menggunakan RAG
-2. **Text-to-Cypher** — implementasi LLM yang generate query Cypher langsung dari natural language, bukan cuma prompt-response
-3. **Intent Classification** — custom router yang mengklasifikasikan pertanyaan pengguna ke intent spesifik sebelum query, agar lebih akurat
-4. **ETL Pipeline** — transformasi data tabular menjadi graf dengan 5 tipe node dan 10 relasi bidirectional
-5. **Observability** — logging query ke SQLite untuk monitoring dan debugging
-6. **Indonesian-first** — seluruh UI, prompt, dan data berbahasa Indonesia — menunjukkan kemampuan membuat sistem NLP untuk bahasa lokal
-7. **Entity Resolution** — disambiguation otomatis untuk nama daerah yang ambigu antar provinsi
-8. **Security** — Cypher validator yang reject write operations dari text-to-cypher
-
+1. **Text-to-Cypher** — implementasi LLM yang generate query Cypher langsung dari natural language, bukan cuma prompt-response
+2. **Intent Classification** — custom router yang mengklasifikasikan pertanyaan pengguna ke intent spesifik sebelum query, agar lebih akurat
+3. **ETL Pipeline** — transformasi data tabular menjadi graf dengan 5 tipe node dan 10 relasi undirected
 ---
 
 ## Roadmap / Future Work
