@@ -1,4 +1,4 @@
-# Penerapan GraphRAG pada Data SPPG Se-Indonesia
+# Penerapan Graph pada Data SPPG Se-Indonesia
 
 <p align="left">
   <img src="https://img.shields.io/badge/Ubuntu-E95420?style=flat&logo=ubuntu&logoColor=white" alt="Ubuntu" />
