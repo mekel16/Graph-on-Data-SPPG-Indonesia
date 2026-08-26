@@ -766,7 +766,3 @@ Bot:  Sistem akan generate summary per provinsi di Kalimantan + analisis distrib
 ```
 
 ---
-
-## License
-
-MIT
