@@ -11,8 +11,6 @@ _tools_:
 
 ## Inti dari projek ini adalah bahwa bagaimana bisa mendapatkan konteks _natural language_ dari data tabular bukan dengan _vector search_. Tapi dengan pendekatan graf
 
-<sub>01 · Tabular Data</sub>
-
 <div align="center">
 
 <div style="overflow-x: auto; padding: 10px 0;">
@@ -26,7 +24,7 @@ _tools_:
 <img src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" alt="Tabular Data and Architecture" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-Structured data serves as the initial source of information.
+Dibentuk menjadi graph dahulu dengan relasi seperti di gambar
 </p>
 
 </td>
@@ -48,7 +46,7 @@ Structured data serves as the initial source of information.
 <img src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" alt="Graph Visualization" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-Tabular relationships are transformed into nodes and edges, capturing the underlying structure of the data.
+Lalu menghasilkan data graph yang tersimpan di database neo4j
 </p>
 
 </td>
@@ -70,7 +68,7 @@ Tabular relationships are transformed into nodes and edges, capturing the underl
 <img src="https://github.com/user-attachments/assets/6bf09ca9-6437-4f6f-86a7-bd22eff0bdb7" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-Graph-derived information is transformed into a human-readable natural language response.
+dengan menerapkan model ollama dan _text to chyper_ maka akan diberikan hasil dalam natural language seperti pada gambar di bawah
 </p>
 
 </td>
