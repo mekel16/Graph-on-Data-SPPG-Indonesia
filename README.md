@@ -677,13 +677,4 @@ curl -X POST http://127.0.0.1:8010/ask \
 
 ## Data Source
 
-Data SPPG diambil dari sumber publik pemerintah Indonesia. Dataset berisi informasi lokasi Sentra Pelayanan Papa Gracia (SPPG) di seluruh provinsi Indonesia, termasuk:
-
-- Nama Provinsi
-- Kabupaten/Kota
-- Kecamatan
-- Kelurahan/Desa
-- Alamat lengkap SPPG
-- Nama SPPG
-
 ---
