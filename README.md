@@ -616,9 +616,6 @@ Beberapa hal yang dapat dikembangkan lebih lanjut:
 - [ ] **Vector search** sebagai hybrid — menggabungkan graf traversal DAN vector similarity untuk pertanyaan yang lebih fuzzy
 - [ ] **Streaming response** — memberikan respons token-by-token agar pengguna tidak menunggu lama
 - [ ] **Multi-turn conversation** — simpan konteks percakapan sebelumnya
-- [ ] **Web UI** — frontend menggunakan Streamlit/Gradio agar lebih user-friendly
-- [ ] **Bulk import** — parallel processing untuk import data yang lebih cepat
-- [ ] **More intent types** — contohnya "SPPG terdekat dari lokasi X" menggunakan spatial query
 
 ---
 
