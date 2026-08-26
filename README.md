@@ -600,23 +600,11 @@ Layered defense begini penting biar sistem ga gampang crash atau return data yan
 
 ---
 
-## Graph vs Vector vs SQL: Perbandingan
-
-Buat data hierarkis seperti SPPG, kenapa graph lebih cocok?
-
-| Aspek | SQL | Vector Search | Graph (Neo4j) |
-|-------|-----|---------------|---------------|
-| **Hierarki** | JOIN berlapis, lambat | Ga bisa traverse | Natural traversal |
-| **Aggregation** | GROUP BY + JOIN | Ga bisa | Hitung dari node manapun |
-| **Discovery** | Harus tau struktur | Cari kemiripan | Explore relasi |
-| **Flexible Query** | Harus tau schema | Pattern matching | Traversal bebas |
-| **Performance** | JOIN makin lambat | O(n) similarity | O(1) traversal per relasi |
+## Graph and natural language
 
 Contoh konkret: *"Berapa SPPG di tiap kabupaten di Jawa Tengah?"*
 
-- **SQL**: `SELECT k.nama, COUNT(s.id) FROM provinsi p JOIN kabupaten k ON ... JOIN kecamatan kc ON ... JOIN desa d ON ... JOIN sppg s ON ... WHERE p.nama = 'JAWA TENGAH' GROUP BY k.nama` — 4 JOIN, query panjang
-- **Vector**: Ga bisa — ini bukan pencarian kemiripan
-- **Graph**: `MATCH (p:Provinsi {nama:'JAWA TENGAH'})-[:MEMILIKI_KABUPATEN]->(k)-[:MEMILIKI_KECAMATAN]->()-[:MEMILIKI_DESA]->()-[:MEMILIKI_SPPG]->(s) RETURN k.nama, count(s)` — natural, tanpa JOIN
+- **Graph**: `MATCH (p:Provinsi {nama:'JAWA TENGAH'})-[:MEMILIKI_KABUPATEN]->(k)-[:MEMILIKI_KECAMATAN]->()-[:MEMILIKI_DESA]->()-[:MEMILIKI_SPPG]->(s) RETURN k.nama, count(s)` 
 
 ---
 
@@ -634,7 +622,7 @@ Dengan optimasi ini, import 27k data selesai dalam hitungan menit, bukan jam.
 
 ---
 
-## Kenapa Ini Menarik Buat Portfolio
+## SaYA tertarik dengan GRaph Rag sehingga mencoba memahami ini dahulu
 
 Beberapa hal yang menurut gue worth untuk ditunjukin:
 
@@ -662,37 +650,7 @@ Beberapa hal yang bisa dikembangkan lagi:
 
 ---
 
-## Challenges & Lessons Learned
-
-### 1. Normalisasi Nama Daerah
-
-Ini salah satu tantangan paling nyebelin. Data CSV dari sumbernya ga konsisten — ada yang pakai "KAB.", ada yang pakai "KABUPATEN", ada yang full caps, ada yang title case. Belum lagi typo dan variasi penulisan.
-
-Solusinya: bikin `normalize.py` yang strip semua prefix umum (kecamatan, kabupaten, kota, provinsi, dll) dan lowercase semua. Tapi tetap aja ada edge case yang ga ke-cover — makanya entity resolution tetap perlu.
-
-### 2. Text-to-Cypher yang Ga Selalu Bener
-
-LLM (Qwen 2.5 7B) kadang generate Cypher yang syntactically valid tapi **semantiknya salah**. Misalnya, user nanya "berapa SPPG di Jawa Tengah" tapi LLM generate query yang count `KabupatenKota` bukan `SPPG`.
-
-Solusinya: hybrid approach — **intent classification dulu** buat pertanyaan yang pattern-nya udah jelas, baru fallback ke text-to-cypher buat yang ambiguous. Dengan begini, majority query jalannya lewat predefined queries yang udah reliable.
-
-### 3. Skala Data
-
-27.000+ records SPPG sounds ga banyak, tapi pas di-graph jadi ribet karena **relasi yang multiply** — setiap SPPG punya minimal 4 relasi (Desa, Alamat, dll). Total node bisa ratusan ribu.
-
-Lesson learned: **batch operations** pake `UNWIND` di Cypher itu wajib buat data scale gini. Kalau insert satu-satu, bisa makan waktu berjam-jam.
-
-### 4. Disambiguation UX
-
-Pertanyaan "SPPG di Kecamatan X" bisa ambiguous kalau nama kecamatan itu ada di beberapa provinsi. Awalnya gue langsung return error, tapi ternyata lebih user-friendly kalau **tanya balik** ke user buat clarify.
-
-Ini menunjukkan pentingnya **human-in-the-loop** di sistem AI — ga selalu harus fully automated.
-
----
-
 ## Quick Start
-
-Buat yang ga mau baca panjang lebar:
 
 ```bash
 # 1. Setup
@@ -717,20 +675,6 @@ curl -X POST http://127.0.0.1:8010/ask \
 
 ---
 
-## Contributing
-
-Kalau mau kontribusi, silakan aja:
-
-1. Fork repo ini
-2. Buat branch baru (`git checkout -b fitur-baru`)
-3. Commit perubahan (`git commit -m 'Tambah fitur X'`)
-4. Push ke branch (`git push origin fitur-baru`)
-5. Buka Pull Request
-
-Pastikan code style konsisten dan tambahin test kalau perlu.
-
----
-
 ## Data Source
 
 Data SPPG diambil dari sumber publik pemerintah Indonesia. Dataset berisi informasi lokasi Sentra Pelayanan Papa Gracia (SPPG) di seluruh provinsi Indonesia, termasuk:
@@ -741,27 +685,5 @@ Data SPPG diambil dari sumber publik pemerintah Indonesia. Dataset berisi inform
 - Kelurahan/Desa
 - Alamat lengkap SPPG
 - Nama SPPG
-
-Data ini bersifat publik dan digunakan untuk keperluan demonstrasi dan riset.
-
----
-
-## Sample Interactions
-
-Beberapa contoh percakapan yang bisa dicoba:
-
-```
-User: "Berapa total SPPG di seluruh Indonesia?"
-Bot:  Sistem akan aggregate semua node SPPG dan return count
-
-User: "Kabupaten mana di Jawa Barat yang paling banyak SPPG-nya?"
-Bot:  Sistem akan traverse Provinsi Jawa Barat → semua KabupatenKota → count SPPG per kabupaten → ranking
-
-User: "SPPG yang ada di Jl. Karangbolong ada di mana aja?"
-Bot:  Sistem akan cari via text-to-cypher karena ini search by alamat
-
-User: "Ringkasan penyebaran SPPG di Kalimantan"
-Bot:  Sistem akan generate summary per provinsi di Kalimantan + analisis distribusi
-```
 
 ---
