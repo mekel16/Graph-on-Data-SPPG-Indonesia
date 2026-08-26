@@ -13,7 +13,7 @@ _tools_:
 
 <div align="center">
 
-<div style="overflow-x: auto; padding: 20px 0;">
+<div style="overflow-x: auto; padding: 10px 0;">
 
 <table>
 <tr>
@@ -21,7 +21,7 @@ _tools_:
 
 ### 01 · Tabular Data
 
-<img src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" alt="Tabular Data and Architecture" style="max-width: 900px; width: 100%; height: auto;" />
+<img src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" alt="Tabular Data and Architecture" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
 Structured data serves as the initial source of information.
@@ -43,10 +43,10 @@ Structured data serves as the initial source of information.
 
 ### 02 · Graph Representation
 
-<img src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" alt="Graph Visualization" style="max-width: 900px; width: 100%; height: auto;" />
+<img src="https://github.com/user-attachments/assets/40e0eaa8-386b-432f-a472-d20050bd71d2" alt="Graph Visualization" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-Tabular relationships are transformed into nodes and edges, producing a graph representation that captures the underlying structure and relationships within the data.
+Tabular relationships are transformed into nodes and edges, capturing the underlying structure of the data.
 </p>
 
 </td>
@@ -65,10 +65,10 @@ Tabular relationships are transformed into nodes and edges, producing a graph re
 
 ### 03 · Natural Language Generation
 
-<img src="https://github.com/user-attachments/assets/6bf09ca9-6437-4f6f-86a7-bd22eff0bdb7" alt="Natural Language Output" style="max-width: 900px; width: 100%; height: auto;" />
+<img src="https://github.com/user-attachments/assets/6bf09ca9-6437-4f6f-86a7-bd22eff0bdb7" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-The graph-derived information is interpreted and transformed into a human-readable natural language response.
+Graph-derived information is transformed into a human-readable natural language response.
 </p>
 
 </td>
