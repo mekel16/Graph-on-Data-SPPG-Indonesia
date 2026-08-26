@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Ollama-000000?style=flat&logo=ollama&logoColor=white" alt="Ollama" />
 </p>
 
-## Inti dari projek ini adalah bahwa bagaimana bisa mendapatkan konteks _natural language_ dari data tabular bukan dengan _vector search_. Tapi dengan pendekatan graf
+## Inti dari proyek ini adalah bagaimana mendapatkan konteks _natural language_ dari data tabular, bukan dengan _vector search_, melainkan dengan pendekatan graf
 
 <div align="center">
 
@@ -22,7 +22,7 @@
 <img src="https://github.com/user-attachments/assets/35bd9f8f-f0ff-4a17-9e32-e3cc7387062f" alt="Tabular Data and Architecture" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-Dibentuk menjadi graph dahulu dengan relasi seperti di gambar
+Dibentuk menjadi graf terlebih dahulu dengan relasi seperti pada gambar
 </p>
 
 </td>
@@ -66,7 +66,7 @@ Lalu menghasilkan data graph yang tersimpan di database neo4j
 <img src="https://github.com/user-attachments/assets/d71f7b77-4de2-45b3-9be1-9a587b0115fb" alt="Natural Language Output" style="max-width: 450px; width: 100%; height: auto;" />
 
 <p>
-dengan menerapkan model ollama dan _text to chyper_ maka akan diberikan hasil dalam natural language seperti pada gambar di bawah
+dengan menerapkan model Ollama dan _text to cypher_ maka akan dihasilkan respons dalam bentuk natural language seperti pada gambar di bawah
 </p>
 
 </td>
@@ -79,7 +79,7 @@ dengan menerapkan model ollama dan _text to chyper_ maka akan diberikan hasil da
 
 ---
 
-## Struktur Projek
+## Struktur Proyek
 
 ```
 sppg_graphrag/
@@ -92,7 +92,7 @@ sppg_graphrag/
 │   ├── text_to_cypher.py     # Natural language → Cypher query
 │   ├── queries.py            # Predefined Cypher + executor
 │   ├── resolver.py           # Entity resolution (disambiguation)
-│   ├── answer_generator.py   # Format jawaban jadi natural language
+│   ├── answer_generator.py   # Format jawaban menjadi natural language
 │   ├── normalize.py          # Normalisasi teks (prefix, spasi, dll)
 │   └── observability.py      # Query logging ke SQLite
 ├── data/
@@ -105,19 +105,6 @@ sppg_graphrag/
 ```
 
 ---
-
-## Kenapa Graph?
-
-Pertanyaan klasik: kenapa ga pake vector search aja?
-
-Karena data SPPG ini punya **struktur hierarki** yang jelas — ada provinsi, kabupaten/kota, kecamatan, desa, sampai lokasi SPPG-nya. Kalau di-vectorize, kita cuma bisa cari "kemiripan" antar dokumen, tapi kita ga bisa **traversal** relasi hierarkis itu.
-
-Contohnya, kalau user tanya *"berapa banyak SPPG di Jawa Tengah?"*, vector search cuma bisa cari chunk teks yang mirip. Tapi dengan graph, kita bisa **langsung traversel** dari node `Provinsi` → `KabupatenKota` → `Kecamatan` → `Desa` → `SPPG` dan hitung semuanya secara struktural.
-
-Intinya: **graph memberikan konteks yang lebih kaya untuk data yang punya relasi hierarkis.**
-
----
-
 ## Arsitektur
 
 ```
@@ -131,7 +118,7 @@ User (Bahasa Indonesia)
            │
            ▼
 ┌──────────────────────┐
-│   LLM Intent Router  │  Klasifikasi intent dari pertanyaan user
+│   LLM Intent Router  │  Klasifikasi intent dari pertanyaan pengguna
 │   (llm_router.py)    │  → 8 jenis intent
 └──────────┬───────────┘
            │
@@ -140,7 +127,7 @@ User (Bahasa Indonesia)
      ▼           ▼
 ┌─────────┐  ┌──────────────────┐
 │ Predefined│  │  Text-to-Cypher  │  Fallback untuk intent
-│  Queries  │  │ (text_to_cypher  │  yang ga dikenali
+│  Queries  │  │ (text_to_cypher  │  yang tidak dikenali
 │(queries.py)│ │      .py)       │
 └─────┬────┘  └────────┬─────────┘
       │                │
@@ -152,7 +139,7 @@ User (Bahasa Indonesia)
            │
            ▼
 ┌──────────────────────┐
-│  Answer Generator    │  Format jawaban jadi
+│  Answer Generator    │  Format jawaban menjadi
 │ (answer_generator.py)│  natural language
 └──────────────────────┘
 ```
@@ -161,7 +148,7 @@ User (Bahasa Indonesia)
 
 ## Schema Graph
 
-Node dan relasi yang dibangun dari data CSV yang terbentuk adalah _unirected graph_ artinya ada relasi bolak balik tiap node (simpul):
+Node dan relasi yang dibangun dari data CSV yang terbentuk adalah _undirected graph_, artinya ada relasi bolak-balik tiap node (simpul):
 
 ```
 (:Provinsi)
@@ -182,13 +169,13 @@ Node dan relasi yang dibangun dari data CSV yang terbentuk adalah _unirected gra
     │       │       │       │       ◄──[:ALAMAT_DARI_SPPG]──┘
 ```
 
-Semua relasi bersifat **bidirectional** supaya traversal bisa dilakukan dari arah manapun.
+Semua relasi bersifat **bidirectional** agar traversal dapat dilakukan dari arah mana pun.
 
 ---
 
 ## Intent yang Didukung
 
-Sistem ini bisa mengenali 8 jenis intent dari pertanyaan user dalam Bahasa Indonesia:
+Sistem ini dapat mengenali 8 jenis _intent_ dari pertanyaan pengguna dalam Bahasa Indonesia:
 
 | Intent | Contoh Pertanyaan |
 |--------|-------------------|
@@ -219,11 +206,9 @@ Sistem ini bisa mengenali 8 jenis intent dari pertanyaan user dalam Bahasa Indon
 
 ## Instalasi
 
-### Prasyarat
-
 - Python 3.10+
 - Neo4j instance (local atau AuraDB)
-- Ollama terinstall dan model `qwen2.5:7b` sudah di-pull
+- Ollama terinstal dan model `qwen2.5:7b` sudah di-pull
 
 ```bash
 ollama pull qwen2.5:7b
@@ -308,7 +293,7 @@ curl -X POST http://127.0.0.1:8010/ask \
 
 ## CLI Chat
 
-Selain API, ada juga client terminal buat ngobrol langsung:
+Selain API, terdapat juga klien terminal untuk berinteraksi secara langsung:
 
 ```bash
 python cli_chat.py
@@ -341,39 +326,34 @@ Setiap query yang masuk dicatat ke SQLite (`observability.db`) dengan field:
 - `duration_ms` — waktu eksekusi
 - `status` — success / error
 
-Ini berguna buat debug dan monitor query mana yang sering fail atau lambat.
+Ini berguna untuk melakukan debug dan memantau query mana yang sering mengalami kegagalan atau lambat.
 
 ---
 
 ## Deep Dive: ETL Pipeline
 
-ETL (`app/etl.py`) convert data CSV jadi graph di Neo4j. Prosesnya:
+ETL (`app/etl.py`) mengonversi data CSV menjadi graf di Neo4j. Prosesnya:
 
 ```
 CSV Reader
     │
     ▼
 Row Transformer
-    │  - Normalisasi nama (hapus prefix "Kec.", "Kab.", dll)
+    │  - Normalisasi nama (menghapus awalan "Kec.", "Kab.", dll)
     │  - Build hierarchical key: PROVINSI|KABUPATEN|KECAMATAN|DESA
-    │  - Deduplicate by SPPG ID
+    │  - Deduplikasi berdasarkan ID SPPG
     │
     ▼
 Batch Importer (UNWIND)
-    │  - Create nodes: Provinsi, KabupatenKota, Kecamatan, Desa, SPPG, Alamat
-    │  - Create relasi: MEMILIKI_* dan BAGIAN_DARI_*
-    │  - Dedup pakai MERGE (bukan CREATE)
+    │  - Membuat node: Provinsi, KabupatenKota, Kecamatan, Desa, SPPG, Alamat
+    │  - Membuat relasi: MEMILIKI_* dan BAGIAN_DARI_*
+    │  - Deduplikasi menggunakan MERGE (bukan CREATE)
     │
     ▼
 Neo4j Database (~27.000+ SPPG nodes)
 ```
 
-Yang menarik di sini:
-- Pakai **batch import** pake `UNWIND` bukan satu-satu, supaya import 27k data ga lambat
-- **Deduplication** via `MERGE` — kalau data CSV ada duplikat, ga bakal double create di graph
-- **Hierarchical key** — setiap node punya key unik berdasarkan path hierarkinya, misal `JAWA TENGAH|KEBUMEN|BUAYAN`
-
-Jalankan sendiri:
+_run_:
 
 ```bash
 python -m app.etl data/data_sppg.csv
@@ -383,11 +363,11 @@ python -m app.etl data/data_sppg.csv
 
 ## Deep Dive: Intent Classification + Text-to-Cypher
 
-Ini bagian yang paling interesting menurut gue. Sistemnya pakai **2 jalur** buat handle pertanyaan user:
+Ini merupakan bagian yang paling menarik menurut penulis. Sistem ini menggunakan **2 jalur** untuk menangani pertanyaan pengguna:
 
 ### Jalur 1: Intent Router (`llm_router.py`)
 
-User nanya → LLM classify ke salah satu dari 8 intent → query predefined yang sudah optimised dijalankan.
+Pengguna bertanya → LLM mengklasifikasikan ke salah satu dari 8 intent → query predefined yang sudah dioptimasi dijalankan.
 
 ```
 "Berapa SPPG di Kecamatan Buayan?"
@@ -413,11 +393,11 @@ User nanya → LLM classify ke salah satu dari 8 intent → query predefined yan
 └─────────────────────────┘
 ```
 
-Kelebihan jalur ini: **predictable** — query-nya sudah di-test dan optimised, jarang error.
+Keunggulan jalur ini: **predictable** — query-nya sudah diuji dan dioptimasi, jarang mengalami error.
 
 ### Jalur 2: Text-to-Cypher Fallback (`text_to_cypher.py`)
 
-Kalau intent ga dikenali (masuk `unknown`), LLM generate Cypher query mentah dari natural language.
+Jika intent tidak dikenali (masuk `unknown`), LLM menghasilkan Cypher query mentah dari natural language.
 
 ```
 "Provinsi mana yang paling sedikit SPPG-nya?"
@@ -449,7 +429,7 @@ Kalau intent ga dikenali (masuk `unknown`), LLM generate Cypher query mentah dar
 └─────────────────────────────┘
 ```
 
-**Security concern**: text-to-cypher itu powerful tapi berbahaya. Untuk itu ada `validate_cypher()` yang **reject** semua write operations — jadi user ga bisa inject Cypher buat hapus data.
+**Security concern**: text-to-cypher merupakan fitur yang kuat namun berbahaya. Untuk itu terdapat `validate_cypher()` yang **menolak** semua operasi write — sehingga pengguna tidak dapat menyuntikkan Cypher untuk menghapus data.
 
 ---
 
@@ -457,7 +437,7 @@ Kalau intent ga dikenali (masuk `unknown`), LLM generate Cypher query mentah dar
 
 Salah satu challenge terbesar: **nama kecamatan/kabupaten yang sama di beberapa provinsi**.
 
-Contoh: "Kecamatan Sukamaju" ada di Jawa Barat DAN di Jawa Tengah. Kalau user cuma bilang "SPPG di Kecamatan Sukamaju", sistem harus **disambiguate** dulu.
+Contoh: "Kecamatan Sukamaju" ada di Jawa Barat dan di Jawa Tengah. Jika pengguna hanya menyebutkan "SPPG di Kecamatan Sukamaju", sistem harus melakukan **disambiguasi** terlebih dahulu.
 
 ```
 "Berapa SPPG di Kecamatan Sukamaju?"
@@ -485,7 +465,7 @@ Contoh: "Kecamatan Sukamaju" ada di Jawa Barat DAN di Jawa Tengah. Kalau user cu
 └─────────────────────────────┘
 ```
 
-Ini penting karena **data Indonesia punya banyak nama daerah yang duplikat** antar provinsi. Tanpa disambiguation, hasil query bakal salah.
+Ini penting karena **data Indonesia memiliki banyak nama daerah yang duplikat** antar provinsi. Tanpa disambiguasi, hasil query akan salah.
 
 ---
 
@@ -493,17 +473,17 @@ Ini penting karena **data Indonesia punya banyak nama daerah yang duplikat** ant
 
 ### Query Logging
 
-Setiap request dicatat ke SQLite. Ini penting banget buat:
+Setiap request dicatat ke SQLite. Ini sangat penting untuk:
 - **Debugging** — kalau ada query yang error, bisa trace dari log
 - **Performance monitoring** — track berapa lama tiap query dieksekusi
 - **Pattern analysis** — pertanyaan apa yang paling sering ditanya
 
 ### Retry Logic
 
-Neo4j query kadang fail karena:
+Neo4j query terkadang mengalami kegagalan karena:
 - `SessionExpired` — session timeout
-- `TransientError` — sementara ga bisa diakses
-- `ServiceUnavailable` — server down
+- `TransientError` — sementara tidak dapat diakses
+- `ServiceUnavailable` — server tidak berfungsi
 
 Sistem retry otomatis **3 kali** dengan exponential backoff (1 detik → 2 detik → 4 detik).
 
@@ -514,7 +494,7 @@ Sistem retry otomatis **3 kali** dengan exponential backoff (1 detik → 2 detik
 File `schema.cypher` mendefinisikan struktur database sebelum data diimport:
 
 ```cypher
-// Unique constraints — ga boleh ada duplikat
+// Unique constraints — tidak boleh ada duplikat
 CREATE CONSTRAINT sppg_id_unique IF NOT EXISTS
 FOR (s:SPPG) REQUIRE s.id IS UNIQUE;
 
@@ -524,7 +504,7 @@ FOR (p:Provinsi) REQUIRE p.nama IS UNIQUE;
 CREATE CONSTRAINT kabupaten_nama_unique IF NOT EXISTS
 FOR (k:KabupatenKota) REQUIRE k.key IS UNIQUE;
 
-// Performance indexes — biar query ga full scan
+// Performance indexes — agar query tidak melakukan full scan
 CREATE INDEX kecamatan_nama_index IF NOT EXISTS
 FOR (k:Kecamatan) ON (k.nama);
 
@@ -533,29 +513,29 @@ FOR (d:Desa) ON (d.nama);
 ```
 
 Ini penting karena:
-- **Unique constraint** mencegah duplikat data masuk ke graph
-- **Index** bikin query traversal lebih cepat (ga perlu scan semua node)
+- **Unique constraint** mencegah duplikat data masuk ke graf
+- **Index** membuat query traversal lebih cepat (tidak perlu memindai semua node)
 
 ---
 
 ## Prompt Engineering
 
-Salah satu aspek yang sering di-skip: prompt design. Di projek ini ada 3 prompt utama:
+Salah satu aspek yang sering diabaikan: prompt design. Di proyek ini terdapat 3 prompt utama:
 
 ### 1. Intent Classification Prompt
-LLM dikasih daftar 8 intent + deskripsi + contoh, lalu diminta return JSON. Kuncinya: **jelas dan spesifik** — kalau intent-nya ambigu, klasifikasi bakal sering salah.
+LLM diberikan daftar 8 intent + deskripsi + contoh, lalu diminta mengembalikan JSON. Kuncinya: **jelas dan spesifik** — jika intent-nya ambigu, klasifikasi akan sering salah.
 
 ### 2. Text-to-Cypher Prompt
-LLM dikasih **schema graph** (semua node dan relasi yang ada), instruksi untuk READ, dan beberapa contoh query. Ini penting biar LLM ga generate CREATE/DELETE.
+LLM diberikan **schema graph** (semua node dan relasi yang ada), instruksi untuk READ, dan beberapa contoh query. Ini penting agar LLM tidak menghasilkan CREATE/DELETE.
 
 ### 3. Answer Generator Prompt
-Buat summary_by_province, LLM diminta analisis data numerik dan generate insight dalam Bahasa Indonesia — bukan cuma return angka mentah.
+Untuk summary_by_province, LLM diminta menganalisis data numerik dan menghasilkan insight dalam Bahasa Indonesia — bukan hanya mengembalikan angka mentah.
 
 ---
 
 ## Normalisasi & Text Processing
 
-Data Indonesia itu **chaos**. Nama daerah ditulis dengan banyak variasi:
+Data Indonesia **sangat tidak terstruktur**. Nama daerah ditulis dengan banyak variasi:
 
 | Asli di CSV | Setelah Normalisasi |
 |-------------|---------------------|
@@ -564,17 +544,17 @@ Data Indonesia itu **chaos**. Nama daerah ditulis dengan banyak variasi:
 | `Kota Bandung` | `bandung` |
 | `PROVINSI JAWA TENGAH` | `jawa tengah` |
 
-`normalize.py` handle semua ini dengan:
-1. **Strip prefix** — hapus "Kec.", "Kab.", "Kota", "Provinsi", dll
+`normalize.py` menangani semua ini dengan:
+1. **Strip prefix** — menghapus "Kec.", "Kab.", "Kota", "Provinsi", dll
 2. **Lowercase** — standarisasi casing
 3. **Strip whitespace** — hapus spasi berlebih
-4. **Hapus tanda baca** — biar matching lebih robust
+4. **Hapus tanda baca** — agar pencocokan lebih robust
 
 ---
 
 ## Error Handling
 
-Sistem punya beberapa layer pertahanan:
+Sistem memiliki beberapa lapisan pertahanan:
 
 ```
 User Query
@@ -596,7 +576,7 @@ User Query
             → Tanya balik ke user
 ```
 
-Layered defense begini penting biar sistem ga gampang crash atau return data yang salah.
+Pertahanan berlapis seperti ini penting agar sistem tidak mudah mengalami kegagalan atau mengembalikan data yang salah.
 
 ---
 
@@ -612,7 +592,7 @@ Contoh konkret: *"Berapa SPPG di tiap kabupaten di Jawa Tengah?"*
 
 Beberapa optimasi yang dilakukan:
 
-- **Batch import** — `UNWIND` buat bulk insert, bukan satu-satu
+- **Batch import** — `UNWIND` untuk bulk insert, bukan satu per satu
 - **MERGE bukan CREATE** — deduplication di level database
 - **Unique constraints** — mencegah duplikat data masuk
 - **Indexes** — pada field yang sering di-query (nama, key)
@@ -622,16 +602,16 @@ Dengan optimasi ini, import 27k data selesai dalam hitungan menit, bukan jam.
 
 ---
 
-## SaYA tertarik dengan GRaph Rag sehingga mencoba memahami ini dahulu
+## Saya Tertarik dengan GraphRAG sehingga Mencoba Memahami Ini Terlebih Dahulu
 
-Beberapa hal yang menurut gue worth untuk ditunjukin:
+Beberapa hal yang menurut penulis layak untuk ditampilkan:
 
-1. **Graph over Vector** — menunjukkan pemahaman kapan pakai graph vs vector search, bukan asal pakai RAG
+1. **Graph over Vector** — menunjukkan pemahaman kapan menggunakan graf vs vector search, bukan sembarang menggunakan RAG
 2. **Text-to-Cypher** — implementasi LLM yang generate query Cypher langsung dari natural language, bukan cuma prompt-response
-3. **Intent Classification** — custom router yang classify pertanyaan user ke intent spesifik sebelum query, supaya lebih akurat
-4. **ETL Pipeline** — transformasi data tabular jadi graph dengan 5 tipe node dan 10 relasi bidirectional
-5. **Observability** — logging query ke SQLite buat monitoring dan debugging
-6. **Indonesian-first** — seluruh UI, prompt, dan data berbahasa Indonesia — menunjukkan kemampuan bikin sistem NLP untuk bahasa lokal
+3. **Intent Classification** — custom router yang mengklasifikasikan pertanyaan pengguna ke intent spesifik sebelum query, agar lebih akurat
+4. **ETL Pipeline** — transformasi data tabular menjadi graf dengan 5 tipe node dan 10 relasi bidirectional
+5. **Observability** — logging query ke SQLite untuk monitoring dan debugging
+6. **Indonesian-first** — seluruh UI, prompt, dan data berbahasa Indonesia — menunjukkan kemampuan membuat sistem NLP untuk bahasa lokal
 7. **Entity Resolution** — disambiguation otomatis untuk nama daerah yang ambigu antar provinsi
 8. **Security** — Cypher validator yang reject write operations dari text-to-cypher
 
@@ -639,14 +619,14 @@ Beberapa hal yang menurut gue worth untuk ditunjukin:
 
 ## Roadmap / Future Work
 
-Beberapa hal yang bisa dikembangkan lagi:
+Beberapa hal yang dapat dikembangkan lebih lanjut:
 
-- [ ] **Vector search** sebagai hybrid — gabungin graph traversal DAN vector similarity buat pertanyaan yang lebih fuzzy
-- [ ] **Streaming response** — kasih response token-by-token biar user ga nunggu lama
+- [ ] **Vector search** sebagai hybrid — menggabungkan graf traversal DAN vector similarity untuk pertanyaan yang lebih fuzzy
+- [ ] **Streaming response** — memberikan respons token-by-token agar pengguna tidak menunggu lama
 - [ ] **Multi-turn conversation** — simpan konteks percakapan sebelumnya
-- [ ] **Web UI** — frontend pake Streamlit/Gradio biar lebih user-friendly
-- [ ] **Bulk import** — parallel processing buat import data yang lebih cepat
-- [ ] **More intent types** — misalnya "SPPG terdekat dari lokasi X" pakai spatial query
+- [ ] **Web UI** — frontend menggunakan Streamlit/Gradio agar lebih user-friendly
+- [ ] **Bulk import** — parallel processing untuk import data yang lebih cepat
+- [ ] **More intent types** — contohnya "SPPG terdekat dari lokasi X" menggunakan spatial query
 
 ---
 
@@ -661,7 +641,7 @@ pip install -r requirements.txt
 # 2. Jalankan Ollama
 ollama pull qwen2.5:7b
 
-# 3. Import data ke Neo4j (pastikan Neo4j udah jalan)
+# 3. Import data ke Neo4j (pastikan Neo4j sudah berjalan)
 python -m app.etl data/data_sppg.csv
 
 # 4. Jalankan server
