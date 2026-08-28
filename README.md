@@ -364,7 +364,6 @@ python -m app.etl data/data_sppg.csv
 
 ## Deep Dive: Intent Classification + Text-to-Cypher
 
-Ini merupakan bagian yang paling menarik menurut penulis. Sistem ini menggunakan **2 jalur** untuk menangani pertanyaan pengguna:
 
 ### Jalur 1: Intent Router (`llm_router.py`)
 
@@ -434,9 +433,7 @@ Jika intent tidak dikenali (masuk `unknown`), LLM menghasilkan Cypher query ment
 
 ---
 
-## Deep Dive: Entity Resolution
-
-Salah satu challenge terbesar: **nama kecamatan/kabupaten yang sama di beberapa provinsi**.
+## Deep Dive: Entity
 
 Contoh: "Kecamatan Sukamaju" ada di Jawa Barat dan di Jawa Tengah. Jika pengguna hanya menyebutkan "SPPG di Kecamatan Sukamaju", sistem harus melakukan **disambiguasi** terlebih dahulu.
 
@@ -466,7 +463,7 @@ Contoh: "Kecamatan Sukamaju" ada di Jawa Barat dan di Jawa Tengah. Jika pengguna
 └─────────────────────────────┘
 ```
 
-Ini penting karena **data Indonesia memiliki banyak nama daerah yang duplikat** antar provinsi. Tanpa disambiguasi, hasil query akan salah.
+Ini penting karena **data Indonesia memiliki banyak nama daerah yang duplikat** antar provinsi.
 
 ---
 
@@ -474,7 +471,6 @@ Ini penting karena **data Indonesia memiliki banyak nama daerah yang duplikat** 
 
 ### Query Logging
 
-Setiap request dicatat ke SQLite. Ini sangat penting untuk:
 - **Debugging** — kalau ada query yang error, bisa trace dari log
 - **Performance monitoring** — track berapa lama tiap query dieksekusi
 - **Pattern analysis** — pertanyaan apa yang paling sering ditanya
@@ -513,15 +509,12 @@ CREATE INDEX desa_nama_index IF NOT EXISTS
 FOR (d:Desa) ON (d.nama);
 ```
 
-Ini penting karena:
 - **Unique constraint** mencegah duplikat data masuk ke graf
-- **Index** membuat query traversal lebih cepat (tidak perlu memindai semua node)
+- **Index** 
 
 ---
 
 ## Prompt Engineering
-
-Salah satu aspek yang sering diabaikan: prompt design. Di proyek ini terdapat 3 prompt utama:
 
 ### 1. Intent Classification Prompt
 LLM diberikan daftar 8 intent + deskripsi + contoh, lalu diminta mengembalikan JSON. Kuncinya: **jelas dan spesifik** — jika intent-nya ambigu, klasifikasi akan sering salah.
